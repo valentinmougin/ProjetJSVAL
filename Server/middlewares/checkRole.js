@@ -1,5 +1,3 @@
-const ForbiddenError = require("../errors/ForbiddenError");
-
 const ROLE = {
   USER: 0,
   ADMIN: 1,
