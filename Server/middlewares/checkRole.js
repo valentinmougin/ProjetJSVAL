@@ -14,7 +14,7 @@ function checkRole({ minRole }) {
     if (ROLE[userRole] >= minRole) {
       next();
     } else {
-      throw new ForbiddenError();
+      throw new super(403);
     }
   };
 }
