@@ -1,0 +1,13 @@
+POST http://localhost:3000/hello
+
+###
+
+GET http://localhost:3000/hello
+
+###
+
+PUT http://localhost:3000/hello/Val
+
+###
+
+Delete http://localhost:3000/hello/Val
