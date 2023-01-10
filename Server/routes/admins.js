@@ -2,57 +2,48 @@ const { Router } = require("express");
 const ForbiddenError = require("../errors/ForbiddenError");
 const checkAuth = require("../middlewares/checkAuth");
 const checkRole = require("../middlewares/checkRole");
-const { User } = require("../models");
+const { admin } = require("../models");
 
 const router = new Router();
 
 
-router.post("/users", (req, res, next) => {
-  const user = new User(req.body);
-  user
+router.post("/admin", (req, res, next) => {
+  const admin = new admin(req.body);
+  admin
     .save()
     .then((data) => res.status(201).json(data))
     .catch(next);
 });
-//Création d'un USER
+//Création d'un admin
 
 
-router.get("/users/:id", async (req, res) => {
-  const user = await User.findByPk(parseInt(req.params.id), {
+router.get("/admin/:id", async (req, res) => {
+  const admin = await admin.findByPk(parseInt(req.params.id), {
     attributes: { exclude: "password" },
   });
-  if (!user) {
+  if (!admin) {
     res.sendStatus(404);
   } else {
-    res.json(user);
+    res.json(admin);
   }
 });
-//Récuperation d'un USER
+//Récuperation d'un admin
 
 
-router.put("/users/:id", checkAuth, (req, res, next) => {
-  if (req.user.id !== parseInt(req.params.id)) throw new ForbiddenError();
+router.put("/admin/:id", checkAuth, (req, res, next) => {
+  if (req.admin.id !== parseInt(req.params.id)) throw new ForbiddenError();
 
-  User.update(req.body, {
+  admin.update(req.body, {
     where: { id: parseInt(req.params.id) },
     individualHooks: true,
   })
-    .then(([nbUpdated]) => {
-      if (!nbUpdated) return res.sendStatus(404);
-      User.findByPk(parseInt(req.params.id), {
-        attributes: { exclude: "password" },
-      }).then((user) => res.json(user));
-    })
-    .catch(next);
+  .catch(next);
 });
-//Update un USER
+//Update un admin
 
-router.delete("/users/:id", checkAuth, (req, res) => {
-  if (req.user.id !== parseInt(req.params.id)) throw new ForbiddenError();
-  User.destroy({
-    where: {
-      id: parseInt(req.params.id),
-    },
+router.delete("/admin/:id", checkAuth, (req, res) => {
+  if (req.admin.id !== parseInt(req.params.id)) throw new ForbiddenError();
+  admin.destroy({where: {id: parseInt(req.params.id),},
   }).then((nbDeleted) => {
     if (nbDeleted) {
       res.sendStatus(204);
@@ -61,6 +52,6 @@ router.delete("/users/:id", checkAuth, (req, res) => {
     }
   });
 });
-//Delete un USER
+//Delete un admin
 
 module.exports = router;
