@@ -19,6 +19,6 @@ function checkRole({ minRole }) {
   };
 }
 
-checkRole.ROLES = ROLES;
+checkRole.ROLE = ROLE;
 
 module.exports = checkRole;
