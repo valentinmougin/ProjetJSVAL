@@ -7,28 +7,20 @@ visitor.init(
   {
     lastname: DataTypes.STRING,
     firstname: DataTypes.STRING,
-    email: {
-      type: DataTypes.STRING,
+    
+    email: {type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate: {
-        isEmail: true,
-      },
+      validate: {isEmail: true,},
     },
-    password: {
-      type: DataTypes.STRING,
+    password: {type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        len: [1],
-      },
+      validate: {len: [1],},
     },
-    role: {
-      type: DataTypes.STRING,
+    role: {type: DataTypes.STRING,
       allowNull: false,
       defaultValue: "USER",
-      validate: {
-        isIn: ["VISITOR"],
-      },
+      validate: {isIn: ["VISITOR"],},
     },
   },
   {
@@ -36,9 +28,9 @@ visitor.init(
   }
 );
 
-Visitor.addHook("beforeCreate", async (Visitor) => {
-  Visitor.password = await bcrypt.hash(Visitor.password, await bcrypt.genSalt());
-});
+
+Visitor.password = await bcrypt.hash(Visitor.password, await bcrypt.genSalt());
+
 Visitor.addHook("beforeUpdate", async (Visitor, { fields }) => {
   if (fields.includes("password")) {
     Visitor.password = await bcrypt.hash(Visitor.password, await bcrypt.genSalt());
