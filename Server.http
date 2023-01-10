@@ -6,8 +6,8 @@ GET http://localhost:3000/hello
 
 ###
 
-PUT http://localhost:3000/hello/Val
+PUT http://localhost:3000/hello/1
 
 ###
 
-Delete http://localhost:3000/hello/Val
+Delete http://localhost:3000/hello/3

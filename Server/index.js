@@ -12,13 +12,15 @@ app.post('/hello', (req,res)=>{
 });
 
 app.put('/hello/:id', (req,res) =>{
-    const id = req.params.id;
-    res.json("Méthode PUT" + id, destinataire id,);
+    const id = parseInt(req.params.id);
+    res.json({msg: "Méthode PUT" + id,
+    destinataire: id});
 });
 
 app.delete('/hello/:id', (req,res) =>{
-    const id = req.params.id;
-    res.json("Méthode delete" + id, destinataire id,);
+    const id = parseInt(req.params.id);
+    res.json({msg: "Méthode delete" + id,
+     destinataire: id});
 });
 
 
