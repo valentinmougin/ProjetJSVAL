@@ -4,7 +4,11 @@ const express = require('express');
 const app = express();
 
 app.get('/hello', (request, response) => {
-    response.json("Salut Val");
+    response.json("Méthode GET");
+});
+
+app.post('/hello', (req,res)=>{
+    res.json("Méthode POST");
 });
 
 const PORT = process.env.PORT || 3000;
