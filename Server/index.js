@@ -1,28 +1,32 @@
+const express = require("express");
+const userRouter = require("./routes/users");
+const securityRouter = require("./routes/security");
+const helloRouter = require("./routes/hello");
+const checkRequestFormat = require("./middlewares/checkRequestFormat");
+const errorHandler = require("./middlewares/errorHandler");
 
-const express = require('express');
-
-const app = express();
-
-app.get('/hello', (request, response) => {
-    response.json("Méthode GET");
+app.use("/admin", (req, res, next) => {
+        if(!req.headers["content-type"]?.startsWith("application/json")) {
+            res.sendStatus(400);
+            return;
+        }
+    next();
 });
 
-app.post('/hello', (req,res)=>{
-    res.json("Méthode POST");
+app.use("/visitor", (req, res, next) => {
+    if(req.method === "POST" || req.method === "PUT" || req.method === "DELETE") {
+        if(!req.headers["content-type"]?.startsWith("application/json")) {
+            res.sendStatus(400);
+            return;
+        }
+    }
+    next();
 });
 
-app.put('/hello/:id', (req,res) =>{
-    const id = parseInt(req.params.id);
-    res.json({msg: "Méthode PUT" + id,
-    destinataire: id});
+app.use("/seller/:id", (req, res, next) => {
+        if(!req.headers["content-type"]?.startsWith("application/json")) {
+            res.sendStatus(400);
+            return;
+        }
+    next();
 });
-
-app.delete('/hello/:id', (req,res) =>{
-    const id = parseInt(req.params.id);
-    res.json({msg: "Méthode delete" + id,
-     destinataire: id});
-});
-
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Server is listening on port " + PORT));
