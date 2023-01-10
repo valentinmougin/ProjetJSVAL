@@ -7,28 +7,20 @@ User.init(
   {
     lastname: DataTypes.STRING,
     firstname: DataTypes.STRING,
-    email: {
-      type: DataTypes.STRING,
+
+    email: {type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate: {
-        isEmail: true,
-      },
+      validate: {isEmail: true,},
     },
-    password: {
-      type: DataTypes.STRING,
+    password: {type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        len: [1],
-      },
+      validate: {len: [1],},
     },
-    role: {
-      type: DataTypes.STRING,
+    role: {type: DataTypes.STRING,
       allowNull: false,
       defaultValue: "USER",
-      validate: {
-        isIn: ["USER", "ADMIN"],
-      },
+      validate: {isIn: ["USER"],},
     },
   },
   {
@@ -36,9 +28,9 @@ User.init(
   }
 );
 
-User.addHook("beforeCreate", async (user) => {
-  user.password = await bcrypt.hash(user.password, await bcrypt.genSalt());
-});
+
+User.password = await bcrypt.hash(user.password, await bcrypt.genSalt());
+
 User.addHook("beforeUpdate", async (user, { fields }) => {
   if (fields.includes("password")) {
     user.password = await bcrypt.hash(user.password, await bcrypt.genSalt());

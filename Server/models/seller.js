@@ -28,9 +28,8 @@ Seller.init(
   }
 );
 
-Seller.addHook("beforeCreate", async (Seller) => {
-    Seller.password = await bcrypt.hash(Seller.password, await bcrypt.genSalt());
-});
+Seller.password = await bcrypt.hash(Seller.password, await bcrypt.genSalt());
+
 Seller.addHook("beforeUpdate", async (Seller, { fields }) => {
   if (fields.includes("password")) {
     Seller.password = await bcrypt.hash(Seller.password, await bcrypt.genSalt());
