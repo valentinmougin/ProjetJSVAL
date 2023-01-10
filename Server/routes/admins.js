@@ -9,21 +9,18 @@ const router = new Router();
 
 router.post("/admin", (req, res, next) => {
   const admin = new admin(req.body);
-  admin
-    .save()
-    .then((data) => res.status(201).json(data))
-    .catch(next);
+  admin.save().then((data) => res.status(201).json(data))
+  .catch(next);
 });
 //Création d'un admin
 
 
 router.get("/admin/:id", async (req, res) => {
-  const admin = await admin.findByPk(parseInt(req.params.id), {
-    attributes: { exclude: "password" },
-  });
-  if (!admin) {
+  const admin = await admin.findByPk(parseInt(req.params.id),{attributes: { exclude: "password" },});
+  if (!admin){
     res.sendStatus(404);
-  } else {
+  } 
+  else{
     res.json(admin);
   }
 });
@@ -43,13 +40,13 @@ router.put("/admin/:id", checkAuth, (req, res, next) => {
 
 router.delete("/admin/:id", checkAuth, (req, res) => {
   if (req.admin.id !== parseInt(req.params.id)) throw new ForbiddenError();
-  admin.destroy({where: {id: parseInt(req.params.id),},
-  }).then((nbDeleted) => {
-    if (nbDeleted) {
-      res.sendStatus(204);
-    } else {
-      res.sendStatus(404);
-    }
+  admin.destroy({where: {id: parseInt(req.params.id),},})
+    .then((nbDeleted) => {
+      if(nbDeleted){
+        res.sendStatus(204);
+      }else{
+        res.sendStatus(404);
+      }
   });
 });
 //Delete un admin
