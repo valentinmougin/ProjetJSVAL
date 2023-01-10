@@ -6,20 +6,7 @@ const { User } = require("../models");
 
 const router = new Router();
 
-// Get collection
-router.get(
-  "/users",
-  checkAuth,
-  checkRole({ minRole: checkRole.ROLES.ADMIN }),
-  (req, res) => {
-    User.findAll({
-      where: req.query,
-      attributes: { exclude: ["password"] },
-    }).then((data) => res.json(data));
-  }
-);
 
-// Créer un user
 router.post("/users", (req, res, next) => {
   const user = new User(req.body);
   user
@@ -27,8 +14,9 @@ router.post("/users", (req, res, next) => {
     .then((data) => res.status(201).json(data))
     .catch(next);
 });
+//Création d'un USER
 
-// Récupérer un user
+
 router.get("/users/:id", async (req, res) => {
   const user = await User.findByPk(parseInt(req.params.id), {
     attributes: { exclude: "password" },
@@ -39,8 +27,9 @@ router.get("/users/:id", async (req, res) => {
     res.json(user);
   }
 });
+//Récuperation d'un USER
 
-// Update un user
+
 router.put("/users/:id", checkAuth, (req, res, next) => {
   if (req.user.id !== parseInt(req.params.id)) throw new ForbiddenError();
 
@@ -56,8 +45,8 @@ router.put("/users/:id", checkAuth, (req, res, next) => {
     })
     .catch(next);
 });
+//Update un USER
 
-// Delete un utilisateur
 router.delete("/users/:id", checkAuth, (req, res) => {
   if (req.user.id !== parseInt(req.params.id)) throw new ForbiddenError();
   User.destroy({
@@ -72,5 +61,6 @@ router.delete("/users/:id", checkAuth, (req, res) => {
     }
   });
 });
+//Delete un USER
 
 module.exports = router;
